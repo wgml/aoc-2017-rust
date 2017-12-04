@@ -1,10 +1,10 @@
 use std::io;
 
-fn first(str: &String) -> u32 {
+fn first(input: &String) -> u32 {
     let mut sum = 0;
-    let len = str.len();
-    for (i, c) in str.chars().enumerate() {
-        let next = str.chars().nth((i + 1) % (len));
+    let len = input.len();
+    for (i, c) in input.chars().enumerate() {
+        let next = input.chars().nth((i + 1) % (len));
 
         if c == next.unwrap() {
             sum += c.to_digit(10).unwrap();
@@ -13,12 +13,12 @@ fn first(str: &String) -> u32 {
     return sum;
 }
 
-fn second(str: &String) -> u32 {
+fn second(input: &String) -> u32 {
     let mut sum = 0;
-    let halfway = str.len() / 2;
-    let dupl = format!("{}{}", str, str);
+    let halfway = input.len() / 2;
+    let dupl = format!("{}{}", input, input);
 
-    for (i, c) in str.chars().enumerate() {
+    for (i, c) in input.chars().enumerate() {
         let next = dupl.chars().nth(i + halfway);
 
         if c == next.unwrap() {
@@ -27,7 +27,8 @@ fn second(str: &String) -> u32 {
     }
     return sum;
 }
-fn main() {
+
+pub fn main() {
     let mut input = String::new();
 
     io::stdin().read_line(&mut input)
@@ -37,4 +38,3 @@ fn main() {
     println!("first = {}", first(&input));
     println!("second = {}", second(&input));
 }
-
