@@ -145,3 +145,39 @@ fn main() {
     println!("first={}", root);
     println!("second={}", second(&root, &input));
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn input() -> HashMap<String, Disc> {
+        let lines = "pbga (66)
+xhth (57)
+ebii (61)
+havc (66)
+ktlj (57)
+fwft (72) -> ktlj, cntj, xhth
+qoyq (66)
+padx (45) -> pbga, havc, qoyq
+tknk (41) -> ugml, padx, fwft
+jptl (61)
+ugml (68) -> gyxo, ebii, jptl
+gyxo (61)
+cntj (57)";
+        let mut map = HashMap::new();
+
+        for line in lines.split('\n') {
+            parse_line(&line.to_string(), &mut map);
+        }
+        return map;
+    }
+    #[test]
+    fn test_first() {
+        assert_eq!("tknk".to_string(), *first(&input()));
+    }
+
+    #[test]
+    fn test_second() {
+        assert_eq!(60, second(&"tknk".to_string(), &input()));
+    }
+}

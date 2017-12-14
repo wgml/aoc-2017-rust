@@ -46,3 +46,19 @@ fn main() {
     println!("second = {}", second(&input));
 }
 
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_first() {
+        let input = vec!(0, 3, 0, 1, -3);
+        assert_eq!(5, first(&input));
+    }
+
+    #[test]
+    fn test_second() {
+        let input = vec!(0, 3, 0, 1, -3);
+        assert_eq!(10, second(&input));
+    }
+}

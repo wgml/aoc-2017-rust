@@ -71,3 +71,27 @@ fn main() {
     println!("second = {}", second(&input));
 }
 
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_first() {
+        let input = vec!(
+            vec!(5, 1, 9, 5),
+            vec!(7, 5, 3),
+            vec!(2, 4, 6, 8),
+        );
+        assert_eq!(18, first(&input));
+    }
+
+    #[test]
+    fn test_second() {
+        let input = vec!(
+            vec!(5, 9, 2, 8),
+            vec!(9, 4, 7, 3),
+            vec!(3, 8, 6, 5),
+        );
+        assert_eq!(9, second(&input));
+    }
+}

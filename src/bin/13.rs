@@ -40,21 +40,22 @@ fn second(scanners: &HashMap<usize, usize>) -> usize {
         .expect("must be anything, right?");
 }
 
-fn parse_stdin() -> HashMap<usize, usize> {
+fn parse_line(line: &String) -> (usize, usize) {
     fn to_us(s: &str) -> usize {
         return s.parse::<usize>().expect("must be a number");
     }
 
+    let parts: Vec<_> = line.split(": ")
+        .map(|e| to_us(e))
+        .collect();
+    return (parts[0], parts[1]);
+}
+
+fn parse_stdin() -> HashMap<usize, usize> {
     let stdin = io::stdin();
 
     return stdin.lock().lines()
-        .map(|line| {
-            let parts: Vec<_> = line.unwrap()
-                .split(": ")
-                .map(|e| to_us(e))
-                .collect();
-            return (parts[0], parts[1]);
-        })
+        .map(|line| parse_line(&line.unwrap()))
         .collect();
 }
 
@@ -64,3 +65,30 @@ fn main() {
     println!("first = {}", first(&input));
     println!("second = {}", second(&input));
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn input() -> HashMap<usize, usize> {
+        let lines = "0: 3
+1: 2
+4: 4
+6: 4";
+
+        let mut result: HashMap<usize, usize> = HashMap::new();
+
+        for line in lines.split('\n') {
+            let (id, ids) = parse_line(&line.to_string());
+            result.insert(id, ids);
+        }
+
+        return result;
+    }
+
+    #[test]
+    fn test() {
+        assert_eq!(24, first(&input()));
+    }
+}
+

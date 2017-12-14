@@ -42,3 +42,33 @@ fn main() {
     println!("second = {}", second(&input));
 }
 
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_first() {
+        let input = vec!(
+            "aa bb cc dd ee",
+            "aa bb cc dd aa",
+            "aa bb cc dd aaa",
+        ).iter()
+            .map(|e| e.to_string().split_whitespace().map(|e| e.to_string()).collect())
+            .collect();
+        assert_eq!(2, first(&input));
+    }
+
+    #[test]
+    fn test_second() {
+        let input = vec!(
+            "abcde fghij",
+            "abcde xyz ecdab",
+            "a ab abc abd abf abj",
+            "iiii oiii ooii oooi oooo",
+            "oiii ioii iioi iiio"
+        ).iter()
+            .map(|e| e.to_string().split_whitespace().map(|e| e.to_string()).collect())
+            .collect();
+        assert_eq!(3, second(&input));
+    }
+}

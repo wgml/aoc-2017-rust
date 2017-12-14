@@ -39,21 +39,23 @@ fn task(input: &Vec<(String, String, i32, String, String, i32)>) -> (i32, i32) {
     return (largest, largest_met);
 }
 
+fn parse_line(line: &String) -> (String, String, i32, String, String, i32) {
+    let res: Vec<&str> = line.split_whitespace().collect();
+    return (
+        res[0].to_string(),
+        res[1].to_string(),
+        res[2].parse::<i32>().expect("must be parsable as number"),
+        res[4].to_string(),
+        res[5].to_string(),
+        res[6].parse::<i32>().expect("must be parsable as number")
+    );
+}
 fn parse_stdin() -> Vec<(String, String, i32, String, String, i32)> {
     let mut instructions = Vec::new();
     let stdin = io::stdin();
 
     for line in stdin.lock().lines() {
-        let l = line.unwrap();
-        let res: Vec<&str> = l.split_whitespace().collect();
-        instructions.push((
-            res[0].to_string(),
-            res[1].to_string(),
-            res[2].parse::<i32>().expect("must be parsable as number"),
-            res[4].to_string(),
-            res[5].to_string(),
-            res[6].parse::<i32>().expect("must be parsable as number")
-        ));
+        instructions.push(parse_line(&line.unwrap()));
     }
     return instructions;
 }
@@ -63,4 +65,27 @@ fn main() {
     let (first, second) = task(&input);
     println!("first = {}", first);
     println!("second = {}", second);
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn input() -> Vec<(String, String, i32, String, String, i32)> {
+        let lines = "b inc 5 if a > 1
+a inc 1 if b < 5
+c dec -10 if a >= 1
+c inc -20 if c == 10";
+
+        let mut input = Vec::new();
+
+        for line in lines.split('\n') {
+            input.push( parse_line(&line.to_string()));
+        }
+        return input;
+    }
+    #[test]
+    fn test() {
+        assert_eq!((1, 10), task(&input()));
+    }
 }

@@ -38,3 +38,25 @@ pub fn main() {
     println!("first = {}", first(&input));
     println!("second = {}", second(&input));
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_first() {
+        assert_eq!(3, first(&"1122".to_string()));
+        assert_eq!(4, first(&"1111".to_string()));
+        assert_eq!(0, first(&"1234".to_string()));
+        assert_eq!(9, first(&"91212129".to_string()));
+    }
+
+    #[test]
+    fn test_second() {
+        assert_eq!(6, second(&"1212".to_string()));
+        assert_eq!(0, second(&"1221".to_string()));
+        assert_eq!(4, second(&"123425".to_string()));
+        assert_eq!(12, second(&"123123".to_string()));
+        assert_eq!(4, second(&"12131415".to_string()));
+    }
+}

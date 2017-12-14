@@ -82,3 +82,21 @@ fn main() {
     println!("second = {}", second(input));
 }
 
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_first() {
+        assert_eq!(1, first(6));
+        assert_eq!(2, first(15));
+        assert_eq!(9, first(100));
+    }
+
+    #[test]
+    fn test_second() {
+        assert_eq!(10, second(6));
+        assert_eq!(122, second(100));
+        assert_eq!(13486, second(10000));
+    }
+}

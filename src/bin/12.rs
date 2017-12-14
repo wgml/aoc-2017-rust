@@ -31,19 +31,24 @@ fn task(mut ids: &mut HashMap<usize, Vec<usize>>) -> (usize, usize) {
     return (group_size, groups);
 }
 
-fn parse_stdin() -> HashMap<usize, Vec<usize>> {
+fn parse_line(line: &String) -> (usize, Vec<usize>) {
     fn to_us(s: &str) -> usize {
         return s.parse::<usize>().expect("must be a number");
     }
 
+    let parts: Vec<&str> = line.split(" <-> ").collect();
+    let id = to_us(parts[0]);
+    let ids: Vec<usize> = parts[1].split(", ").map(|i| to_us(i)).collect();
+    return (id, ids);
+}
+
+fn parse_stdin() -> HashMap<usize, Vec<usize>> {
     let mut result: HashMap<usize, Vec<usize>> = HashMap::new();
     let stdin = io::stdin();
 
     for line in stdin.lock().lines() {
         let l = line.unwrap();
-        let parts: Vec<&str> = l.split(" <-> ").collect();
-        let id = to_us(parts[0]);
-        let ids: Vec<usize> = parts[1].split(", ").map(|i| to_us(i)).collect();
+        let (id, ids) = parse_line(&l);
         result.insert(id, ids);
     }
 
@@ -56,4 +61,33 @@ fn main() {
     let (first, second) = task(&mut input);
     println!("first = {}", first);
     println!("second = {}", second);
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn input() -> HashMap<usize, Vec<usize>> {
+        let lines = "0 <-> 2
+1 <-> 1
+2 <-> 0, 3, 4
+3 <-> 2, 4
+4 <-> 2, 3, 6
+5 <-> 6
+6 <-> 4, 5";
+
+        let mut result: HashMap<usize, Vec<usize>> = HashMap::new();
+
+        for line in lines.split('\n') {
+            let (id, ids) = parse_line(&line.to_string());
+            result.insert(id, ids);
+        }
+
+        return result;
+    }
+
+    #[test]
+    fn test() {
+        assert_eq!((6, 2), task(&mut input()));
+    }
 }

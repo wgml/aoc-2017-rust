@@ -69,3 +69,31 @@ fn main() {
     println!("first = {}", first);
     println!("second = {}", second);
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_first() {
+        assert_eq!(1, task(&"{}".to_string()).0);
+        assert_eq!(6, task(&"{{{}}}".to_string()).0);
+        assert_eq!(5, task(&"{{},{}}".to_string()).0);
+        assert_eq!(16, task(&"{{{},{},{{}}}}".to_string()).0);
+        assert_eq!(1, task(&"{<a>,<a>,<a>,<a>}".to_string()).0);
+        assert_eq!(9, task(&"{{<ab>},{<ab>},{<ab>},{<ab>}}".to_string()).0);
+        assert_eq!(9, task(&"{{<!!>},{<!!>},{<!!>},{<!!>}}".to_string()).0);
+        assert_eq!(3, task(&"{{<a!>},{<a!>},{<a!>},{<ab>}}".to_string()).0);
+    }
+
+    #[test]
+    fn test_second() {
+        assert_eq!(0, task(&"<>".to_string()).1);
+        assert_eq!(17, task(&"<random characters>".to_string()).1);
+        assert_eq!(3, task(&"<<<<>".to_string()).1);
+        assert_eq!(2, task(&"<{!>}>".to_string()).1);
+        assert_eq!(0, task(&"<!!>".to_string()).1);
+        assert_eq!(0, task(&"<!!!>>".to_string()).1);
+        assert_eq!(10, task(&"<{o\"i!a,<{i<a>".to_string()).1);
+    }
+}

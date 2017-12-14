@@ -59,3 +59,16 @@ fn main() {
     println!("first = {}", first);
     println!("second = {}", second);
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_first() {
+        assert_eq!(3, task(&vec!(&NE, &NE, &NE)).0);
+        assert_eq!(0, task(&vec!(&NE, &NE, &SW, &SW)).0);
+        assert_eq!(2, task(&vec!(&NE, &NE, &S, &S)).0);
+        assert_eq!(3, task(&vec!(&SE, &SW, &SE, &SW, &SW)).0);
+    }
+}
